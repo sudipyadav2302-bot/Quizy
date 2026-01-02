@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/auth_service.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -8,10 +10,38 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmController = TextEditingController();
+  bool loading = false;
+  String? errorMessage;
+
+  Future<void> _register() async {
+    if (passwordController.text.trim() != confirmController.text.trim()) {
+      setState(() => errorMessage = "Passwords do not match");
+      return;
+    }
+
+    setState(() {
+      loading = true;
+      errorMessage = null;
+    });
+
+    try {
+      await AuthService.registerWithEmail(
+        emailController.text,
+        passwordController.text,
+      );
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      setState(() => errorMessage = e.message ?? "Registration failed");
+    } catch (e) {
+      setState(() => errorMessage = "Something went wrong");
+    } finally {
+      if (mounted) setState(() => loading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +53,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 40),
-
-              Center(
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.person_add_alt_1_rounded,
-                      size: 90,
-                      color: Colors.deepPurple,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      "CREATE ACCOUNT",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple.shade700,
-                      ),
-                    ),
-                  ],
+              const SizedBox(height: 60),
+              const Text(
+                "Register 🚀",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 48, 4, 181),
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Card(
                 elevation: 6,
                 shape: RoundedRectangleBorder(
@@ -55,32 +70,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 30),
+                    horizontal: 20,
+                    vertical: 30,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Full Name",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 6),
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          hintText: "Enter your full name",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                      const Text(
+                        "Email",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-
-                      const SizedBox(height: 20),
-
-                      const Text("Email",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
                       const SizedBox(height: 6),
                       TextField(
                         controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           hintText: "Enter your email",
                           border: OutlineInputBorder(
@@ -88,12 +94,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 20),
-
-                      const Text("Password",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Password",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       TextField(
                         controller: passwordController,
@@ -105,15 +113,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 20),
-
-                      const Text("Confirm Password",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 16),
+                      const Text(
+                        "Confirm Password",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 6),
                       TextField(
-                        controller: confirmPasswordController,
+                        controller: confirmController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Re-enter your password",
@@ -122,40 +132,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 25),
-
-                      // REGISTER BUTTON — FIXED
+                      const SizedBox(height: 10),
+                      if (errorMessage != null)
+                        Text(
+                          errorMessage!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                          ),
+                        ),
+                      const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: loading ? null : _register,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple,
+                            backgroundColor:
+                                const Color.fromARGB(255, 31, 130, 216),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
-                            "REGISTER",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
+                          child: loading
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const Text(
+                                  "REGISTER",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
                       ),
-
-                      const SizedBox(height: 15),
-
+                      const SizedBox(height: 12),
                       Center(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(context, '/login');
                           },
                           child: const Text("Already have an account? Login"),
                         ),

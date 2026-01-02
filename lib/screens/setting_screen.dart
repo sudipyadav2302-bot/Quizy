@@ -12,6 +12,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool notificationsEnabled = true;
   bool darkModeEnabled = false;
 
+  void _showAbout() {
+    showAboutDialog(
+      context: context,
+      applicationName: "Quizy",
+      applicationVersion: "1.0.0",
+      applicationIcon: const Icon(Icons.quiz, color: Colors.deepPurple),
+      children: const [
+        Text("Quizy is a simple quiz app built with Flutter and Firebase."),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +39,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           const SizedBox(height: 10),
-
           ListTile(
             leading: const Icon(Icons.volume_up_outlined),
             title: const Text("Sound"),
@@ -41,9 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
-
           const Divider(),
-
           ListTile(
             leading: const Icon(Icons.notifications_outlined),
             title: const Text("Notifications"),
@@ -57,9 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
-
           const Divider(),
-
           ListTile(
             leading: const Icon(Icons.dark_mode_outlined),
             title: const Text("Dark Mode"),
@@ -69,23 +76,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: (value) {
                 setState(() {
                   darkModeEnabled = value;
-                  // TODO: Wire with theme if you want
+                  // later: connect to app-wide theme
                 });
               },
             ),
           ),
-
           const Divider(),
-
           const SizedBox(height: 20),
-
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text("About"),
             subtitle: const Text("Quizy v1.0.0"),
-            onTap: () {
-              // TODO: Show about dialog
-            },
+            onTap: _showAbout,
           ),
         ],
       ),

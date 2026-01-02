@@ -29,7 +29,7 @@ class _LevelCardState extends State<LevelCard> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: const Color.fromARGB(220, 0, 0, 0).withOpacity(0.15),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),

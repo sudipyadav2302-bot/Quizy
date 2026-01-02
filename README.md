@@ -1,4 +1,5 @@
-# my_app
+# quizy
+
 
 A new Flutter project.
 

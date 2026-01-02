@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/level_screen.dart';
+import '../screens/questions_screen.dart';
+import '../services/score_service.dart';
 
 class ResultScreen extends StatefulWidget {
   final int score;
@@ -18,11 +20,38 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  bool saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _saveScoreToFirebase();
+  }
+
+  Future<void> _saveScoreToFirebase() async {
+    setState(() => saving = true);
+    await ScoreService.saveScore(
+      level: widget.level,
+      score: widget.score,
+      total: widget.total,
+    );
+    if (mounted) setState(() => saving = false);
+  }
+
   void _playAgain() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const LevelSelectionScreen(),
+        builder: (context) => const LevelScreen(),
+      ),
+    );
+  }
+
+  void _retryLevel() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuestionsScreen(level: widget.level),
       ),
     );
   }
@@ -46,24 +75,17 @@ class _ResultScreenState extends State<ResultScreen> {
         child: Column(
           children: [
             const SizedBox(height: 40),
-
             Icon(
               Icons.emoji_events_rounded,
               size: 80,
               color: Colors.deepPurple.shade700,
             ),
-
             const SizedBox(height: 20),
-
             Text(
-              "Level: ${widget.level}",
-              style: const TextStyle(
-                fontSize: 18,
-              ),
+              "Level: ${widget.level.toUpperCase()}",
+              style: const TextStyle(fontSize: 18),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               "Your Score",
               style: TextStyle(
@@ -72,9 +94,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 color: Colors.deepPurple.shade700,
               ),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               "${widget.score} / ${widget.total}",
               style: const TextStyle(
@@ -82,9 +102,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             const SizedBox(height: 10),
-
             Text(
               "${percent.toStringAsFixed(1)}%",
               style: TextStyle(
@@ -92,9 +110,29 @@ class _ResultScreenState extends State<ResultScreen> {
                 color: Colors.grey.shade700,
               ),
             ),
-
+            if (saving) ...[
+              const SizedBox(height: 10),
+              const Text(
+                "Saving your score...",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ],
             const Spacer(),
-
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _retryLevel,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: const Text(
+                  "RETRY LEVEL",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -105,14 +143,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 child: const Text(
                   "PLAY AGAIN",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
           ],
         ),

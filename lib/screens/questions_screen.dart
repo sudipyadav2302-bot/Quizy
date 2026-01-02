@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'result_screen.dart';
 
 class QuestionsScreen extends StatefulWidget {
   final String level;
@@ -32,7 +31,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   bool showExplanation = false;
 
   void _onOptionTap(int index) {
-    if (selectedIndex != -1) return; // prevent re-select
+    if (selectedIndex != -1) return;
 
     setState(() {
       selectedIndex = index;
@@ -51,15 +50,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         showExplanation = false;
       });
     } else {
-      Navigator.pushReplacement(
+      Navigator.pushReplacementNamed(
         context,
-        MaterialPageRoute(
-          builder: (context) => ResultScreen(
-            score: score,
-            total: questions.length,
-            level: widget.level,
-          ),
-        ),
+        '/result',
+        arguments: {
+          'score': score,
+          'total': questions.length,
+          'level': widget.level,
+        },
       );
     }
   }
@@ -73,7 +71,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text(
-          "Quiz - ${widget.level}",
+          "Quiz - ${widget.level.toUpperCase()}",
           style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -98,9 +96,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 30),
-
             Expanded(
               child: ListView.builder(
                 itemCount: question["options"].length,
@@ -113,7 +109,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 },
               ),
             ),
-
             if (showExplanation) ...[
               const SizedBox(height: 10),
               Text(
@@ -130,9 +125,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 style: const TextStyle(fontSize: 14),
               ),
             ],
-
             const SizedBox(height: 20),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -169,8 +162,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       } else if (index == selectedIndex) {
         bgColor = Colors.red.shade300;
       }
-    } else if (index == selectedIndex) {
-      bgColor = Colors.deepPurple.shade100;
     }
 
     return InkWell(
@@ -184,9 +175,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+          style: const TextStyle(fontSize: 18),
         ),
       ),
     );

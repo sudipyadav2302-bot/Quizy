@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LevelSelectionScreen extends StatefulWidget {
-  const LevelSelectionScreen({super.key});
+class LevelScreen extends StatefulWidget {
+  const LevelScreen({super.key});
 
   @override
-  State<LevelSelectionScreen> createState() => _LevelSelectionScreenState();
+  State<LevelScreen> createState() => LevelScreenState();
 }
 
-class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
+class LevelScreenState extends State<LevelScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,21 +20,17 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
         ),
         centerTitle: true,
       ),
-
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
           children: [
             const SizedBox(height: 10),
-
             Icon(
               Icons.quiz_rounded,
               size: 80,
               color: Colors.deepPurple.shade700,
             ),
-
             const SizedBox(height: 20),
-
             Text(
               "Choose Your Level",
               style: TextStyle(
@@ -43,9 +39,7 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                 color: Colors.deepPurple.shade700,
               ),
             ),
-
             const SizedBox(height: 40),
-
             Expanded(
               child: Column(
                 children: [
@@ -55,7 +49,13 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                         child: _buildLevelCard(
                           title: "SIMPLE",
                           color: Colors.green,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/questions',
+                              arguments: "simple",
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -63,14 +63,18 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                         child: _buildLevelCard(
                           title: "EASY",
                           color: Colors.blue,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/questions',
+                              arguments: "easy",
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
                   Row(
                     children: [
                       const Spacer(),
@@ -79,7 +83,13 @@ class _LevelSelectionScreenState extends State<LevelSelectionScreen> {
                         child: _buildLevelCard(
                           title: "HARD",
                           color: Colors.red,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/questions',
+                              arguments: "hard",
+                            );
+                          },
                         ),
                       ),
                       const Spacer(),

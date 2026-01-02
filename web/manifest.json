@@ -1,6 +1,6 @@
 {
-    "name": "my_app",
-    "short_name": "my_app",
+    "name": "Quizy",
+    "short_name": "Quizy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
@@ -10,24 +10,24 @@
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
+            "src": "icons/Untitled.png",
+            "sizes": "292x292",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
+            "src": "icons/Untitled.png",
+            "sizes": "812x812",
             "type": "image/png"
         },
         {
             "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
+            "sizes": "292x292",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
             "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
+            "sizes": "812x812",
             "type": "image/png",
             "purpose": "maskable"
         }
