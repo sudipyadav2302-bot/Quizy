@@ -7,12 +7,14 @@ class ResultScreen extends StatefulWidget {
   final int score;
   final int total;
   final String level;
+  final String category;
 
   const ResultScreen({
     super.key,
     required this.score,
     required this.total,
     required this.level,
+    required this.category
   });
 
   @override
@@ -42,7 +44,7 @@ class _ResultScreenState extends State<ResultScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const LevelScreen(),
+        builder: (context) => LevelScreen(category: widget.category),
       ),
     );
   }
@@ -51,7 +53,7 @@ class _ResultScreenState extends State<ResultScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => QuestionsScreen(level: widget.level),
+        builder: (context) => QuestionsScreen(category: widget.category, level: widget.level),
       ),
     );
   }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
- // All screens 
+// All screens 
 import 'screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/forgotpassword_screen.dart';
@@ -35,24 +34,39 @@ class QuizyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/home',
+
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => RegistrationScreen(),
         '/forgot': (context) => const ForgotPasswordScreen(),
         '/home': (context) => const HomeScreen(),
-        '/levels': (context) => const LevelScreen(),
         '/history': (context) => const HistoryScreen(),
         '/leaderboard': (context) => LeaderboardScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/settings': (context) => const SettingsScreen(),
       },
+
       onGenerateRoute: (settings) {
-        if (settings.name == '/questions') {
-          final level = settings.arguments as String;
+        // LEVEL SCREEN (needs category)
+        if (settings.name == '/levels') {
+          final category = settings.arguments as String;
           return MaterialPageRoute(
-            builder: (_) => QuestionsScreen(level: level),
+            builder: (_) => LevelScreen(category: category),
           );
         }
+
+        // QUESTIONS SCREEN (needs category + level)
+        if (settings.name == '/questions') {
+          final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => QuestionsScreen(
+              category: args['category'],
+              level: args['level'],
+            ),
+          );
+        }
+
+        // RESULT SCREEN (needs score + total + category + level)
         if (settings.name == '/result') {
           final args = settings.arguments as Map<String, dynamic>;
           return MaterialPageRoute(
@@ -60,9 +74,11 @@ class QuizyApp extends StatelessWidget {
               score: args['score'],
               total: args['total'],
               level: args['level'],
+              category: args['category'],
             ),
           );
         }
+
         return null;
       },
     );

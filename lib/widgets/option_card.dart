@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OptionCard extends StatefulWidget {
+class OptionCard extends StatelessWidget {
   final String text;
   final bool isSelected;
   final bool isCorrect;
@@ -17,21 +17,19 @@ class OptionCard extends StatefulWidget {
   });
 
   @override
-  State<OptionCard> createState() => _OptionCardState();
-}
-
-class _OptionCardState extends State<OptionCard> {
-  @override
   Widget build(BuildContext context) {
     Color bgColor = Colors.grey.shade200;
 
-    if (widget.isCorrect) {
+    if (isCorrect) {
       bgColor = Colors.green.shade300;
-    } else if (widget.isWrong) bgColor = Colors.red.shade300;
-    else if (widget.isSelected) bgColor = Colors.deepPurple.shade100;
+    } else if (isWrong) {
+      bgColor = Colors.red.shade300;
+    } else if (isSelected) {
+      bgColor = Colors.deepPurple.shade100;
+    }
 
     return InkWell(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
@@ -39,11 +37,18 @@ class _OptionCardState extends State<OptionCard> {
           color: bgColor,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(
-          widget.text,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+        child: Row(
+          children: [
+            if (isSelected)
+              const Icon(Icons.arrow_right, size: 28, color: Colors.black),
+
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
+          ],
         ),
       ),
     );

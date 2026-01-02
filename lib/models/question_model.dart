@@ -13,19 +13,19 @@ class QuestionModel {
 
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
     return QuestionModel(
-      question: map['question'],
-      options: List<String>.from(map['options']),
+      question: map['Question'],
+      options: List<String>.from(map['option']),
       correctIndex: map['correctIndex'],
-      explanation: map['explanation'],
+      explanation: map['Explanation'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'question': question,
-      'options': options,
+      'Question': question,
+      'option': options,
       'correctIndex': correctIndex,
-      'explanation': explanation,
+      'Explanation': explanation,
     };
   }
 }

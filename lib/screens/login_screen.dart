@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      if (errorMessage != null)
+                      if (errorMessage == "Login failed")
                         Text(
                           errorMessage!,
                           style: const TextStyle(
