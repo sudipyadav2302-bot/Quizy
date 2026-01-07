@@ -15,7 +15,7 @@ class QuestionModel {
     return QuestionModel(
       question: map['Question'],
       options: List<String>.from(map['option']),
-      correctIndex: map['correctIndex'],
+      correctIndex: map['correct Index'],
       explanation: map['Explanation'],
     );
   }
@@ -24,7 +24,7 @@ class QuestionModel {
     return {
       'Question': question,
       'option': options,
-      'correctIndex': correctIndex,
+      'correct Index': correctIndex,
       'Explanation': explanation,
     };
   }

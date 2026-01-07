@@ -13,8 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String username = "Player";
-  int gamesPlayed = 0; // later you can compute this from Firestore if needed
-
+  
   @override
   void initState() {
     super.initState();
@@ -53,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
+            icon: const Icon(Icons.menu, color: Colors.black),
             onSelected: _handleMenuSelection,
             itemBuilder: (context) => const [
               PopupMenuItem(value: "profile", child: Text("Profile")),
@@ -69,28 +69,32 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text("Hi, $username 👋", style: AppUtils.greetingStyle),
             const SizedBox(height: 6),
-            Text("Games played: $gamesPlayed", style: AppUtils.subTextStyle),
             const SizedBox(height: 30),
-            const Text("Pick a category", style: AppUtils.sectionTitle),
+            const Text("Choose a category", style: AppUtils.sectionTitle),
             const SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+            Column(
+              
                 children: const [
-                  CategoryCard(
+                  SizedBox(
+                    width:double.infinity,
+                    height:150,
+                  child:CategoryCard(
                     title: "Politics",
                     route: "/levels",
                   ),
-                  CategoryCard(
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width:double.infinity,
+                    height:150,
+                  child:CategoryCard(
                     title: "Defence",
                     route: "/levels",
                   ),
+                  ),
                 ],
               ),
-            ),
-            const SizedBox(height: 10),
+            const Spacer(),
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
@@ -101,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: AppUtils.primaryButtonStyle,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Center(
               child: TextButton(
                 onPressed: () {

@@ -19,8 +19,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       );
       return;
     }
-
-    // TODO: Send to backend / Firebase later
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Thank you for your feedback!")),
     );

@@ -102,7 +102,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     if (isLoading) {
       return const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(color: Colors.deepPurple),
+          child: CircularProgressIndicator(color: Color.fromARGB(86, 20, 2, 217)),
         ),
       );
     }
@@ -112,7 +112,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: const Color.fromARGB(255, 39, 219, 15),
         title: Text(
           "${widget.category.toUpperCase()} - ${widget.level.toUpperCase()}",
           style: const TextStyle(color: Colors.white),
@@ -135,8 +135,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 Text(
                   "$timeLeft s",
                   style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.deepPurple,
+                    fontSize: 25,
+                    color: Color.fromARGB(255, 181, 78, 9),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -177,17 +177,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
             // ANSWER FIELD + EXPLANATION BOX
             if (showExplanation) ...[
-              const SizedBox(height: 10),
+              const SizedBox(height: 19),
 
               const Text(
                 "The Answer is:",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 6),
+              const SizedBox(height: 10),
 
               Container(
                 width: double.infinity,
@@ -199,7 +199,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 child: Text(
                   question.explanation,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 18,
                   ),
                 ),
               ),
@@ -213,12 +213,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               child: ElevatedButton(
                 onPressed: showExplanation ? _nextQuestion : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: const Color.fromARGB(255, 181, 78, 9),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(
                   currentIndex == questions.length - 1 ? "FINISH" : "NEXT",
-                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                  style: const TextStyle(fontSize: 22, color: Colors.white),
                 ),
               ),
             ),

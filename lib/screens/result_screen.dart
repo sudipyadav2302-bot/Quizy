@@ -1,7 +1,8 @@
+import 'package:QUIZY/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import '../screens/level_screen.dart';
 import '../screens/questions_screen.dart';
 import '../services/score_service.dart';
+import '../services/feedback_service.dart';
 
 class ResultScreen extends StatefulWidget {
   final int score;
@@ -14,7 +15,7 @@ class ResultScreen extends StatefulWidget {
     required this.score,
     required this.total,
     required this.level,
-    required this.category
+    required this.category,
   });
 
   @override
@@ -23,6 +24,9 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   bool saving = false;
+  bool submittingFeedback = false;
+
+  final TextEditingController _feedbackController = TextEditingController();
 
   @override
   void initState() {
@@ -40,11 +44,32 @@ class _ResultScreenState extends State<ResultScreen> {
     if (mounted) setState(() => saving = false);
   }
 
+  Future<void> _submitFeedback() async {
+    final message = _feedbackController.text.trim();
+    if (message.isEmpty) return;
+
+    setState(() => submittingFeedback = true);
+
+    await FeedbackService.submitFeedback(
+      message: message,
+      category: widget.category,
+      level: widget.level,
+      score: widget.score,
+    );
+
+    setState(() => submittingFeedback = false);
+    _feedbackController.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Feedback submitted")),
+    );
+  }
+
   void _playAgain() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => LevelScreen(category: widget.category),
+        builder: (context) =>  const HomeScreen(),
       ),
     );
   }
@@ -53,7 +78,10 @@ class _ResultScreenState extends State<ResultScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => QuestionsScreen(category: widget.category, level: widget.level),
+        builder: (context) => QuestionsScreen(
+          category: widget.category,
+          level: widget.level,
+        ),
       ),
     );
   }
@@ -72,7 +100,8 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
@@ -112,6 +141,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 color: Colors.grey.shade700,
               ),
             ),
+
             if (saving) ...[
               const SizedBox(height: 10),
               const Text(
@@ -119,7 +149,40 @@ class _ResultScreenState extends State<ResultScreen> {
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ],
-            const Spacer(),
+
+            const SizedBox(height: 30),
+
+            // FEEDBACK BOX
+            TextField(
+              controller: _feedbackController,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: "Your Feedback",
+                hintText: "Write something...",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: submittingFeedback ? null : _submitFeedback,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: submittingFeedback
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        "SUBMIT",
+                        style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 229, 166, 166)),
+                      ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -134,7 +197,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+
+            const SizedBox(height: 20),
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -149,10 +214,12 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
             ),
+
             const SizedBox(height: 20),
           ],
         ),
       ),
-    );
+    ),   
+     );
   }
 }

@@ -26,14 +26,12 @@ class ScoreService {
     final user = FirebaseAuth.instance.currentUser;
     return _scores
         .where('userId', isEqualTo: user?.uid)
-        .orderBy('timestamp', descending: true)
         .snapshots();
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> leaderboardStream() {
     return _scores
         .orderBy('score', descending: true)
-        .orderBy('timestamp', descending: true)
         .limit(20)
         .snapshots();
   }

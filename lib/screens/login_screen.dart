@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                    horizontal: 25,
                     vertical: 30,
                   ),
                   child: Column(
@@ -76,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         "Email",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -95,8 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         "Password",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -158,13 +158,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.pushNamed(context, '/register');
                             },
-                            child: const Text("Register"),
+                            child: const Text("Register",
+                          style: TextStyle
+                          (fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () {
                               Navigator.pushNamed(context, '/forgot');
                             },
-                            child: const Text("Forgot Password?"),
+                            child: const Text("Forgot Password?",
+                            style: TextStyle
+                            (fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            ),
+                            
+                            ),
+                                  
                           ),
                         ],
                       ),
