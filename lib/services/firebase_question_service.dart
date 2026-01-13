@@ -5,8 +5,7 @@ class FirebaseQuestionService {
   static Future<List<QuestionModel>> getQuestions(
       String category, String level) async {
     try {
-      // Correct Firestore path based on your screenshots:
-      // Questions → Defence → Easy/Medium/Hard → Question 1, Question 2...
+      
       final snapshot = await FirebaseFirestore.instance
           .collection('Questions')
           .doc(category)

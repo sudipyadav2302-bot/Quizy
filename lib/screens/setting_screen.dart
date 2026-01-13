@@ -76,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onChanged: (value) {
                 setState(() {
                   darkModeEnabled = value;
-                  // later: connect to app-wide theme
+                  
                 });
               },
             ),

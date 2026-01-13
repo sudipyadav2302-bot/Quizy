@@ -63,7 +63,7 @@ class LevelScreenState extends State<LevelScreen> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black,
                       blurRadius: 6,
                       offset: const Offset(0, 3),
                     ),

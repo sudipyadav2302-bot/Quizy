@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child:CategoryCard(
                     title: "Politics",
                     route: "/levels",
+                  
                   ),
                   ),
                   SizedBox(height: 20),
@@ -90,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child:CategoryCard(
                     title: "Defence",
                     route: "/levels",
+                  
                   ),
                   ),
                 ],

@@ -12,7 +12,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String name = "";
   String email = "";
-  String level = "EASY"; // placeholder; later can store preferred level
+  String level = "";
 
   @override
   void initState() {
@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             PrimaryButton(
               label: "EDIT PROFILE",
               onPressed: () {
-                // future: add edit profile logic or screen
+          
               },
             ),
           ],

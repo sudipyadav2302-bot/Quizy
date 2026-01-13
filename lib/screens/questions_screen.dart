@@ -5,7 +5,7 @@ import '../models/question_model.dart';
 import '../widgets/option_card.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  final String category;   // <-- ADDED
+  final String category;  
   final String level;
 
   const QuestionsScreen({

@@ -8,6 +8,7 @@ class CategoryCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.route,
+
   });
 
   @override
@@ -22,6 +23,7 @@ class CategoryCard extends StatelessWidget {
       },
       child: Card(
         elevation: 4,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -30,7 +32,7 @@ class CategoryCard extends StatelessWidget {
             title,
             style: const TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
